@@ -1,0 +1,35 @@
+.form__sure-button {
+        width: 100%;
+        background: #000000;
+        border-radius: 2px;
+        font-size: 18px;
+        line-height: 22px;
+        text-align: center;
+        color: #FFFFFF;
+        padding: 0;
+        border: none;
+        min-height: 50px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 38px;
+    
+    }
+    .form__sure-button:hover {
+        opacity: 0.8;
+    }
+    
+    .form__sure-button:disabled {
+        background-color: #E5E5E5;
+        cursor: not-allowed;
+    }
+    
+    
+    @media screen and (max-width: 659px) {
+        .form__sure-button {
+            min-height: 46px;
+            font-size: 14px;
+            line-height: 17px;
+            margin-top: 35px;
+        }
+}
+    

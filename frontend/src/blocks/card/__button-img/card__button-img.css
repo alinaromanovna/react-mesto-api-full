@@ -1,0 +1,12 @@
+.card__button-img {
+    border-style: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card__button-img:hover {
+    opacity: 0.6;
+}

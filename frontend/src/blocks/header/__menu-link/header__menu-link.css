@@ -1,0 +1,17 @@
+.header__menu-link {
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 22px;
+color: #FFFFFF;
+margin-left: 25px;
+text-decoration: none;
+transition: opacity 0.1s linear 0.1s;
+opacity: 0.6;
+
+}
+
+.header__menu-link:hover {
+    cursor: pointer;
+    opacity: 1;
+}
