@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://Alina-mesto-back.nomoredomains.rocks',
-  'http://Alina-mesto-back.nomoredomains.rocks',
+  'https://api.Alina-mesto-back.nomoredomains.rocks',
+  'http://api.Alina-mesto-back.nomoredomains.rocks',
   'localhost:3000',
 ];
 
