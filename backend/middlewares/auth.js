@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   let payload;
 
   try {
-    payload = jwt.verify(token, 'secret');
+    payload = jwt.verify(token, NODE_ENV !== 'production' ? 'dev-secret' : JWT_SECRET);
   } catch (err) {
     next(new UnauthorizedError('Некорректный токен jwt'));
   }

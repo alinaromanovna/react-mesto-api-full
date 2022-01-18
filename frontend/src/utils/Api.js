@@ -81,7 +81,7 @@ class Api {
 }
 
 const api = new Api({
-    baseUrl: 'https://api.Alina-mesto-back.nomoredomains.rocks',
+    baseUrl: 'api.Alina-mesto-back.nomoredomains.rocks',
     headers: {
       authorization: `Bearer ${localStorage.getItem("jwt")}`,
       'Content-Type': 'application/json'
