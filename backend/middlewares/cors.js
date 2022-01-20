@@ -1,7 +1,8 @@
 const allowedCors = [
-  'https://api.Alina-mesto-back.nomoredomains.rocks',
-  'http://api.Alina-mesto-back.nomoredomains.rocks',
-  'localhost:3000',
+  'https://Alina-mesto-back.nomoredomains.rocks',
+  'http://Alina-mesto-back.nomoredomains.rocks',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 module.exports = (req, res, next) => {

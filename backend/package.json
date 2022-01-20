@@ -1,7 +1,7 @@
 {
   "name": "mesto-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend mesto",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
