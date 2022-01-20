@@ -1,4 +1,4 @@
-export const baseUrl = 'api.Alina-mesto-back.nomoredomains.rocks';
+export const baseUrl = 'http://api.Alina-mesto-back.nomoredomains.rocks';
 
 const checkResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
@@ -8,6 +8,7 @@ export const register = ({ password, email }) => {
     return fetch(`${baseUrl}/signup`, {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ password, email })
@@ -19,6 +20,7 @@ export const authorize = ({ password, email }) => {
     return fetch(`${baseUrl}/signin`, {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ password, email })
