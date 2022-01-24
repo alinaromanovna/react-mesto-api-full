@@ -1,21 +1,23 @@
 // const path = require('path');
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/not_found');
 const { serverError } = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('./middlewares/cors');
+// const cors = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 // , {
-//   useUnifiedTopology: true,
+//   // useUnifiedTopology: true,
 //   useNewUrlParser: true,
 //   useCreateIndex: true,
 //   useFindAndModify: false,
@@ -25,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
-app.use(cors);
+// app.use(cors);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -50,10 +52,12 @@ app.post('/signup', celebrate({
 }), createUser);
 
 app.use(auth);
-
 app.use('/', require('./routes/users'));
 app.use('/', require('./routes/cards'));
 
+app.use((req, res, next) => {
+  next(new NotFoundError('Маршрут не найден'));
+});
 app.use(errorLogger);
 
 app.use(errors());

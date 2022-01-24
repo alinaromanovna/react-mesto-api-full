@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
-const { NODE_ENV, JWT_SECRET} = process.env;
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const BadRequestError = require('../errors/bad_request');
@@ -18,7 +19,7 @@ module.exports.login = (req, res, next) => {
           if (!matched) {
             next(new UnauthorizedError('Неправильные почта или пароль'));
           }
-          const token = jwt.sign({ _id: User._id }, NODE_ENV !== 'production' ? 'dev-secret' : JWT_SECRET, { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, NODE_ENV !== 'production' ? 'dev-secret' : JWT_SECRET, { expiresIn: '7d' });
           res.status(200).send({ token });
         });
     })
@@ -73,16 +74,17 @@ module.exports.createUser = (req, res, next) => {
       email,
       password: hash,
     }))
-    .then(() => {
+    .then((data) => {
       res.status(201).send({
-        data:
-      {
-        name, about, avatar, email,
-      },
+        name: data.name,
+        about: data.about,
+        avatar: data.avatar,
+        email: data.email,
+        _id: data._id,
       });
     })
     .catch((err) => {
-      if (err.name === 'MongoServerError' && err.code === 11000) {
+      if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
       } else if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные в методы создания пользователя;'));
@@ -119,6 +121,7 @@ module.exports.updateAvatarById = (req, res, next) => {
     req.user._id,
     { avatar },
     { new: true },
+    { runValidators: true },
   )
     .orFail(() => new NotFoundError('Пользователь по указанному _id не найден.'))
     .then((user) => {
