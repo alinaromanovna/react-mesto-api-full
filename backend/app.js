@@ -11,18 +11,11 @@ const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/not_found');
 const { serverError } = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-// const cors = require('./middlewares/cors');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
-// , {
-//   // useUnifiedTopology: true,
-//   useNewUrlParser: true,
-//   useCreateIndex: true,
-//   useFindAndModify: false,
-// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

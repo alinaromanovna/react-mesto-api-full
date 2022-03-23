@@ -1,4 +1,4 @@
-export const baseUrl = 'http://api.Alina-mesto-back.nomoredomains.rocks';
+export const baseUrl = 'https://api.alina-mesto-back.nomoredomains.rocks';
 
 const checkResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
