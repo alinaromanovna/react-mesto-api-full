@@ -23,7 +23,8 @@ class Api {
         return fetch(`${this._url}/users/me`, {
             headers: this._headers
         })
-            .then(res => this._checkRes(res))
+            .then(res => this._checkRes(res)
+            )
     }
 
 
@@ -83,7 +84,7 @@ class Api {
 const api = new Api({
     baseUrl: 'https://api.alina-mesto-back.nomoredomains.rocks',
     headers: {
-      authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      Authorization: `Bearer ${localStorage.getItem('jwt')}`,
       'Content-Type': 'application/json'
     }
   });

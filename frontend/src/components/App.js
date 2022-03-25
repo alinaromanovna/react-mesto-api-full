@@ -36,18 +36,82 @@ function App() {
         _id: '',
         email: '',
       })
+
+      function handleRegister({password, email}){
+        auth.register({password, email})
+        .then((data) => {
+          if(data) {
+            setIsInfotoolOpen(true);
+            setIsAuthorized(true)
+            history.push('/sign-in')
+          }
+        })
+          .catch ((err) => {
+            setIsInfotoolOpen(true);
+            setIsAuthorized(false);
+            console.log(err)
+            
+        })
+    } 
     
+    function handleLogin ({email, password}){
+        auth.authorize({
+          email , 
+          password})
+          .then((data) => {
+            if (data.token){
+              localStorage.setItem('jwt', data.token);
+                handleTokenCheck();
+                history.push('/')
+            }
+            })
+            .catch ((err) => {
+                setIsInfotoolOpen(true);
+                setIsAuthorized(false);
+                console.log(err)
+                
+            })
+      }
+
+      function handleTokenCheck(){
+        const jwt = localStorage.getItem('jwt');
+        if (jwt){
+        auth.getContent(jwt)
+        .then((res) => {
+          if (res){
+            const userData = {
+              _id: res.data._id,
+              email: res.data.email
+            }
+            setUserData(userData) 
+              setLoggedIn(true)
+            }
+        })
+            .catch ((err) => {
+                setIsInfotoolOpen(true);
+                setIsAuthorized(false);
+                console.log(err)
+                
+            })
+        }
+    }
 
     React.useEffect(() => {
+        console.log(loggedIn);
+        if(loggedIn === true) {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
             .then(([data, initialCards]) => {
-                setCurrentUser(data)
-                setCards(initialCards);
+                console.log(data);
+                console.log(initialCards);
+                setCurrentUser({name: data.data.name, about: data.data.about, avatar: data.data.avatar})
+                setCards({ link: initialCards.link, name: initialCards.name });
+                // history.push("/");
             })
             .catch(err => {
                 console.log(err);
             })
-    }, []);
+        }
+    }, [loggedIn]);
 
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -147,76 +211,12 @@ function App() {
     function handleExit() {
         localStorage.removeItem('jwt');
       }
-      
-    React.useEffect(() => {
-      if(loggedIn === true) {
-        history.push("/");
-      }
-    }, [loggedIn, history])
 
     React.useEffect(() => {
         handleTokenCheck()
       }, [])
-
-
-      function handleTokenCheck(){
-        const jwt = localStorage.getItem('jwt');
-        if (jwt){
-        auth.getContent(jwt)
-        .then((res) => {
-          if (res){
-            const userData = {
-              _id: res.data._id,
-              email: res.data.email
-            }
-            setUserData(userData) 
-              setLoggedIn(true)
-            }
-        })
-            .catch ((err) => {
-                setIsInfotoolOpen(true);
-                setIsAuthorized(false);
-                console.log(err)
-                
-            })
-        }
-    }
-
-      function handleLogin ({email, password}){
-        auth.authorize({
-          email , 
-          password})
-          .then((data) => {
-            if (data.token){
-              localStorage.setItem('jwt', data.token);
-                handleTokenCheck();
-                history.push('/')
-            }
-            })
-            .catch ((err) => {
-                setIsInfotoolOpen(true);
-                setIsAuthorized(false);
-                console.log(err)
-                
-            })
-      }
     
-      function handleRegister({password, email}){
-        auth.register({password, email})
-        .then((data) => {
-          if(data) {
-            setIsInfotoolOpen(true);
-            setIsAuthorized(true)
-            history.push('/sign-in')
-          }
-        })
-          .catch ((err) => {
-            setIsInfotoolOpen(true);
-            setIsAuthorized(false);
-            console.log(err)
-            
-        })
-    }
+      
     
 
     return (
