@@ -100,11 +100,11 @@ function App() {
         console.log(loggedIn);
         if(loggedIn === true) {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([data, initialCards]) => {
+            .then(([data, card]) => {
                 console.log(data);
-                console.log(initialCards);
+                console.log(card);
                 setCurrentUser({name: data.data.name, about: data.data.about, avatar: data.data.avatar})
-                setCards({ link: initialCards.link, name: initialCards.name });
+                setCards({ link: card.data.link, name: card.data.name });
                 // history.push("/");
             })
             .catch(err => {

@@ -81,6 +81,42 @@ class Api {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const api = new Api({
     baseUrl: 'https://api.alina-mesto-back.nomoredomains.rocks',
     headers: {
