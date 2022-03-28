@@ -81,8 +81,8 @@ function App() {
                 .then((res) => {
                     if (res) {
                         const userData = {
-                            _id: res.data._id,
-                            email: res.data.email
+                            _id: res._id,
+                            email: res.email
                         }
                         setUserData(userData)
                         setLoggedIn(true)
@@ -103,10 +103,10 @@ function App() {
         if (loggedIn === true) {
             Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
                 .then(([dataUser, dataCard]) => {
-                    console.log(dataCard.data);
-                    console.log(dataUser.data);
-                    setCurrentUser(dataUser.data)
-                    setCards(dataCard.data);
+                    console.log(dataCard);
+                    console.log(dataUser);
+                    setCurrentUser(dataUser)
+                    setCards(dataCard);
                 
                 })
                 .catch(err => {
@@ -119,7 +119,7 @@ function App() {
         const isLiked = card.likes.some(id => id === currentUser._id);
         api.changeLikeCardStatus(card._id, !isLiked, token)
             .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c));
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
             })
             .catch(err => {
                 console.log(err);
@@ -142,8 +142,8 @@ function App() {
     function handleUpdateUser(data) {
         api.editProfile(data, token)
             .then((userData) => {
-                console.log(userData.data);
-                setCurrentUser(userData.data);
+                console.log(userData);
+                setCurrentUser(userData);
                 closeAllPopups();
             })
             .catch(err => {
@@ -156,8 +156,8 @@ function App() {
         console.log(data);
         api.updateAvatar(data.avatar, token)
             .then((userData) => {
-                console.log(userData.data);
-                setCurrentUser(userData.data);
+                console.log(userData);
+                setCurrentUser(userData);
                 closeAllPopups();
             })
             .catch(err => {
@@ -169,7 +169,7 @@ function App() {
     function handleAddPlaceSubmit(data) {
         api.addNewCard(data.name, data.link, token)
             .then((newCard) => {
-                setCards([newCard.data, ...cards])
+                setCards([newCard, ...cards])
                 closeAllPopups();
             })
             .catch(err => {
