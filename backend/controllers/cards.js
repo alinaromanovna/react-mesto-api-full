@@ -29,10 +29,10 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.deleteCard = (req, res, next) => {
   const { cardId } = req.params;
-  Card.findByIdAndRemove(cardId)
+  Card.findById(cardId)
     .orFail(() => new NotFoundError('Пользователь по указанному _id не найден.'))
     .then((card) => {
-      if (card.owner.toString() === req.user._id.toString()) {
+      if (card.owner.toString() === req.user._id) {
         card.remove(() => {
           res.status(200).send({ message: 'Карточка удалена' });
         });

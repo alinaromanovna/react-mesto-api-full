@@ -11,17 +11,17 @@ class Api {
     }
 
 
-    getInitialCards() {
+    getInitialCards(token) {
         return fetch(`${this._url}/cards`, {
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
         })
             .then(res => this._checkRes(res))
 
     }
 
-    getUserInfo() {
+    getUserInfo(token) {
         return fetch(`${this._url}/users/me`, {
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
         })
             .then(res => this._checkRes(res)
             )
@@ -29,10 +29,10 @@ class Api {
 
 
 
-    editProfile(data) {
+    editProfile(data, token) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
             body: JSON.stringify({
                 name: data.name,
                 about: data.about
@@ -41,10 +41,10 @@ class Api {
             .then(res => this._checkRes(res))
     }
 
-    addNewCard(name, link) {
+    addNewCard(name, link, token) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
             body: JSON.stringify({
                 name: name,
                 link: link
@@ -52,26 +52,26 @@ class Api {
         })
             .then(res => this._checkRes(res))
     }
-    deleteCard(idCard) {
+    deleteCard(idCard, token) {
         return fetch(`${this._url}/cards/${idCard}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
         })
             .then(res => this._checkRes(res))
     }
 
-    changeLikeCardStatus(idCard, isLiked) {
-        return fetch(`${this._url}/cards/likes/${idCard}`, {
+    changeLikeCardStatus(idCard, isLiked, token) {
+        return fetch(`${this._url}/cards/${idCard}/likes`, {
             method: isLiked ? 'PUT' : 'DELETE',
-            headers: this._headers
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
         })
             .then(res => this._checkRes(res))
     }
     
-    updateAvatar(url) {
+    updateAvatar(url, token) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {...this._headers, Authorization: `Bearer ${token}`},
             body: JSON.stringify({
                 avatar: url
             })
@@ -81,46 +81,9 @@ class Api {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const api = new Api({
     baseUrl: 'https://api.alina-mesto-back.nomoredomains.rocks',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('jwt')}`,
       'Content-Type': 'application/json'
     }
   });
