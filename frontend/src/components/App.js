@@ -99,15 +99,11 @@ function App() {
     }
 
     React.useEffect(() => {
-        console.log(loggedIn);
         if (loggedIn === true) {
             Promise.all([api.getUserInfo(token), api.getInitialCards(token)])
                 .then(([dataUser, dataCard]) => {
-                    console.log(dataCard);
-                    console.log(dataUser);
                     setCurrentUser(dataUser)
                     setCards(dataCard);
-                
                 })
                 .catch(err => {
                     console.log(err);
@@ -128,11 +124,8 @@ function App() {
 
     function handleCardDelete(card) {
         api.deleteCard(card._id, token)
-            .then((cards) => {
-                console.log(card);
-                setCards(cards.filter((c) => c._id !== card._id))
-                console.log();
-
+            .then((card) => {
+                setCards((cards) => cards.filter((c) => c._id !== card._id))
             })
             .catch(err => {
                 console.log(err);
@@ -203,6 +196,7 @@ function App() {
         setIsSelectedCard({ link: '', name: '' });
         setIsImagePopupOpen(false);
         setIsInfotoolOpen(false);
+
     }
 
     const history = useHistory()

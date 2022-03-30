@@ -120,8 +120,7 @@ module.exports.updateAvatarById = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar },
-    { new: true },
-    { runValidators: true },
+    { new: true, runValidators: true },
   )
     .orFail(() => new NotFoundError('Пользователь по указанному _id не найден.'))
     .then((user) => {

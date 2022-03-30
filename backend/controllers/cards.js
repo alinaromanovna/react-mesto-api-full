@@ -34,7 +34,9 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (card.owner.toString() === req.user._id) {
         return card.remove()
-          .then(res.status(200).send({ message: 'Карточка удалена' }));
+          .then((data) => {
+            res.status(200).send(data);
+          });
       }
       return next(new ForbiddenError('У вас нет прав для удаления карточки'));
     })
